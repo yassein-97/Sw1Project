@@ -1,0 +1,107 @@
+package Controller;
+
+import Model.UserManagment;
+import java.util.ArrayList;
+import java.util.Vector;
+import Model.User;
+public class controller {
+
+	private ArrayList<User >systemUsers;
+	UserManagment uM ;
+
+	controller()
+	{
+		systemUsers=new ArrayList<User>();
+		uM= new UserManagment();	
+	}
+	public void AddUser(User u) {
+		systemUsers.add(u);
+	  }
+	
+	
+	  public User searchUser(String userName) {
+
+		  User temp=new User();
+		  temp.SetUserName(userName);
+		  temp=uM.isExist(temp);
+
+		  return temp;	//will be null if it dosen't exist
+	  }
+	  public String addFriend(User me, User friend) {
+			
+			if (uM.isExist(friend) != null) {
+
+				/// Check if in friends
+				for (int i = 0; i < me.Friends.size(); i++) {
+
+					if (me.Friends.get(i).UserName.equals(friend.UserName)) {
+						return "already your friend !!";
+					}
+				}
+				/// Check if he sent me a request
+				for (int i = 0; i < me.FriendRequests.size(); i++) {
+
+					if (me.FriendRequests.get(i).UserName.equals(friend.UserName)) {
+						return "he already sent you a request before !!";
+					}
+
+				}
+				/// Check if i sent him a request before
+				for (int i = 0; i < friend.FriendRequests.size(); i++) {
+
+					if (friend.FriendRequests.get(i).UserName.equals(me.UserName)) {
+						return "you already sent him a request before !!";
+					}
+
+				}
+
+				friend.FriendRequests.add(me);
+				return "you added him !";
+
+			} else {
+				return "this friend not exists !!";
+			}
+
+		}
+	  public String acceptAddrequest( User me  ,User friendtoAccept)
+	    {
+	        for(int i=0 ;i<me.FriendRequests.size(); i++)
+	        {
+	            if(me.FriendRequests.get(i).UserName.equals(friendtoAccept.UserName))
+	            {
+	                me.FriendRequests.remove(friendtoAccept);
+	                me.Friends.add(friendtoAccept);
+	                friendtoAccept.Friends.add(me);
+	                return "Done!!!";
+	            }
+
+	        }
+	        return "Not in friend requests";
+
+	    }
+	  
+  public void createPage() {
+  }
+
+  public void createGroup() {
+  }
+
+  public void createMessage() {
+  }
+
+  public void createPost() {
+  }
+
+  public void deletePage() {
+  }
+
+  public void deleteGroup() {
+  }
+
+  public void SendMessage() {
+  }
+
+  public void Search() {
+  }
+
+}
